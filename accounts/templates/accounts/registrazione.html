@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-6 text-center">
+    <h2>Registrati per partecipare alle aste!</h2>
+    <form class="" method="POST">
+      {% csrf_token %} {{ form|crispy }}
+      <input type="submit" class="btn btn-info" value="Crea Account" />
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

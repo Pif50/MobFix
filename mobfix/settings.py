@@ -37,7 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #App installed
+    'crispy_forms', #pip install django_crispy_forms
+    'crispy_bootstrap5', #pip install crispy-bootstrap5
+
+    'accounts',
 ]
+
+CRISPY_TEMPLATES_PACK = "bootstrap5" #impostazione necessaria per django-crispy-forms
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +62,10 @@ ROOT_URLCONF = 'mobfix.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'mobfix/templates',
+            BASE_DIR / 'accounts/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
