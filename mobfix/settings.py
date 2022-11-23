@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     # App installed
     "crispy_forms",  # pip install django_crispy_forms
     "crispy_bootstrap5",  # pip install crispy-bootstrap5
-    "accounts",
+    "users",
 ]
 
 CRISPY_TEMPLATES_PACK = "bootstrap5"  # impostazione necessaria per django-crispy-forms
@@ -62,7 +62,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "mobfix/templates",
-            BASE_DIR / "accounts/templates",
+            BASE_DIR / "users/templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
