@@ -70,7 +70,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Profilo</a></li>
-                  <li><a class="dropdown-item" href="#">Aggiorna Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'password_change' %}">Aggiorna Password</a></li>
                   <li><hr class="dropdown-divider" /></li>
                   <li>
                     <a class="dropdown-item" href="{% url 'logout' %}">Esci</a>
@@ -88,7 +88,7 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" style="color: yellow">Login</a>
+                <a class="nav-link" href="{% url 'login' %}" style="color: yellow">Login</a>
               </li>
             {% endif %}
             <li class="nav-item">
