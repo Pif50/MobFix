@@ -23,4 +23,4 @@ def registrazione_view(request):
     else:
         form = FormRegistrazione()
     context = {'form': form}
-    return render(request, "accounts/registrazione.html", context)    
+    return render(request, "accounts/registrazione.html", context)   
