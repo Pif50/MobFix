@@ -32,7 +32,7 @@ class Auction_item(models.Model):
 
     def __str__(self):
         return (
-            f"{self.name}, {self.price} $, ({self.owner.username}) , [{self.category}]"
+            f"{self.name}, {self.price} $, ({self.owner.username}) , [{self.quality}]"
         )
 
 
