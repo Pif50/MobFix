@@ -92,18 +92,12 @@
               </li>
             {% endif %}
             <li class="nav-item">
-              <a class="nav-link disabled" style="color: yellow"
-                >Lista utenti</a
+              <a class="nav-link active" style="color: yellow" href="{% url 'watchlist'  %}"
+                >Watchlist</a
               >
             </li>
           </ul>
           <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
             <button type="button" class="btn btn-warning">Warning</button>
           </form>
         </div>

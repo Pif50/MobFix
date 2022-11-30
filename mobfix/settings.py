@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "crispy_forms",  # pip install django_crispy_forms
     "crispy_bootstrap5",  # pip install crispy-bootstrap5
     "users",
+    "auction",
 ]
 
 CRISPY_TEMPLATES_PACK = "bootstrap5"  # impostazione necessaria per django-crispy-forms
