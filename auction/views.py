@@ -103,10 +103,10 @@ def notification(request):
     return render(request, "auction/notification.html", {"list": all})
 
 
-def index(request):
+def asta(request):
     return render(
         request,
-        "auction/index.html",
+        "auction/asta.html",
         {
             "list": Auction_item.objects.filter(active=True).order_by("-id"),
         },
