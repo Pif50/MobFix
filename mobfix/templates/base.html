@@ -55,11 +55,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            
-            {% if request.user.is_authenticated %}
-              <li class="nav-item dropdown">
+            {% if request.user.is_superuser %}
+                <a class="navbar-brand" href="{% url 'new_item' %}" style="color: yellow">Create new collection</a>
+                <a class="navbar-brand" href="{% url  'admin:index' %}" style="color: yellow">Admin pannel</a>
+                <a class="navbar-brand" href="{% url 'logout' %}" style="color: yellow">Logout</a>
+            {% elif user.is_authenticated %}
+              <li class="nav-item dropdown me-auto">
                 <a
-                  class="nav-link dropdown-toggle"
+                  class="nav-link dropdown-toggle me-auto"
                   href="#"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -76,7 +79,13 @@
                     <a class="dropdown-item" href="{% url 'logout' %}">Esci</a>
                   </li>
                 </ul>
+                <li class="nav-item">
+                  <a class="nav-link active" style="color: yellow" href="{}"
+                    >Asta</a
+                  >
+                </li>
               </li>
+            
             {% else %}
               <li class="nav-item">
                 <a
@@ -91,18 +100,8 @@
                 <a class="nav-link" href="{% url 'login' %}" style="color: yellow">Login</a>
               </li>
             {% endif %}
-            <li class="nav-item">
-              <a class="nav-link active" style="color: yellow" href="{% url 'watchlist'  %}"
-                >Watchlist</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" style="color: yellow" href="{% url 'asta'  %}"
-                >Asta</a
-              >
-            </li>
           </ul>
-          <form class="d-flex" role="search" href="{% url 'asta'  %}">
+          <form class="d-flex" role="search" href="{}">
             <button type="button" class="btn btn-warning">Warning</button>
           </form>
         </div>
