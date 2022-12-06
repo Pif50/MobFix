@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,12 +41,12 @@ INSTALLED_APPS = [
     # App installed
     "crispy_forms",  # pip install django_crispy_forms
     "crispy_bootstrap5",  # pip install crispy-bootstrap5
-    "users",
-    "auction",
-    "core",
+    "users",  # App for registration of user
+    "auction",  # App for the auction
+    "core",  # App for the homepage
 ]
 
-CRISPY_TEMPLATES_PACK = "bootstrap5"  # impostazione necessaria per django-crispy-forms
+CRISPY_TEMPLATE_PACK = "bootstrap5"  # impostazione necessaria per django-crispy-forms
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -56,6 +57,15 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "KEY_PREFIX": "example",
+    }
+}
 
 ROOT_URLCONF = "mobfix.urls"
 
@@ -133,6 +143,12 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+MEDIA_ROOT = BASE_DIR, "media"
+MEDIA_URL = "/media/"
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
 
 LOGIN_REDIRECT_URL = "/"
 
