@@ -5,6 +5,7 @@ from datetime import *
 from .models import *
 from django.contrib import messages
 import hashlib
+from django.contrib.auth.models import User
 
 client = redis.Redis(host="127.0.0.1", port="6379", decode_responses=True)
 
@@ -60,6 +61,35 @@ def send_on_chain(auct):
     return tx
 
 
+def add_data_redis(auction_id, price, date, user):
+    client.rpush(f"Auction_{auction_id}", f"{price}")
+    client.rpush(f"Data_in_{auction_id}", f"{date}")
+    client.rpush(f"User_in_{auction_id}", f"{user}")
+
+
+def last_bet(auction_id):
+    last_price = client.lindex(
+        f"Auction_{auction_id}",
+        -1,
+    )
+    return last_price
+
+
+def last_user(auction_id):
+    list_user = client.lindex(f"User_in_{auction_id}", -1)
+    return list_user
+
+
+def last_date(auction_id):
+    list_date = client.lindex(f"Data_in_{auction_id}", -1)
+    return list_date
+
+
+def len_bets(auction_id):
+    tot = client.llen(f"Auction_{auction_id}")
+    return tot
+
+
 def detail_bets(id):
     list_bet = client.lrange(f"Auction_{id}", 0, -1)
     list_data = client.lrange(f"Data_in_{id}", 0, -1)
@@ -80,4 +110,33 @@ def check_data(close_data):
     if now >= end_data:
         return False
     else:
+        return True
+
+
+def check_winner(request, id_auction):
+    auction = Auction.objects.get(id=id_auction)
+    auction.total_bet = len_bets(id_auction)
+    auction.close_price = last_bet(id_auction)
+    auction.winner = last_user(id_auction)
+    auction.save()
+    prof_user = User.objects.get(username=auction.winner)
+    prof_user.wins += 1
+    prof_user.wallet -= int(auction.close_price)
+    tx = send_on_chain(auction)
+    if prof_user.wallet < 0:
+        prof_user.active = False
+        prof_user.save()
+    prof_user.save()
+    messages.success(
+        request,
+        f"The winner is {auction.winner} with the last bet at $ {auction.close_price}",
+    )
+    return tx
+
+
+def check_profile(request):
+
+    prof_user = User.objects.get(pk=request.user.pk)
+    if prof_user is False:
+        messages.error(request, f"Attention! please pay {prof_user.wallet} $")
         return True

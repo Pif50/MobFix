@@ -8,13 +8,16 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="login")
 def new_item(request):
+
+    """
+    A function that will create a new item for te auction
+    """
+
     if request.method == "POST":
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(
-                request, "Item create"
-            )  # nuova asta creata con i parametri scelti
+            messages.success(request, "Item create")
             return redirect("new_item")
     else:
         form = ItemForm()
@@ -52,4 +55,4 @@ def auction(request):
         request.session["selected_id"] = auct_id
         return redirect("betting")
     else:
-        return render(request, "auction.html", {"auction": auctions_open})
+        return render(request, "auction/auction.html", {"auction": auctions_open})
