@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from django.contrib.messages import constants as messages
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -144,8 +145,10 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = BASE_DIR, "media"
+
 MEDIA_URL = "/media/"
+MEDIA_ROOT = (BASE_DIR, "media")
+
 MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
