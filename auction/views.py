@@ -18,7 +18,7 @@ def new_item(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Item create")
-            return redirect("new_item")
+            return redirect("homepage")
     else:
         form = ItemForm()
     return render(request, "auction/new_item.html", {"form": form})
