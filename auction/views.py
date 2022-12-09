@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Auction
+from users.models import Profile
 from .forms import *
 from .utils import *
 from django.contrib import messages
