@@ -115,7 +115,7 @@ def betting(request):
                 return redirect("betting")
         return render(
             request,
-            "betting.html",
+            "auction/betting.html",
             {
                 "auction": auction,
                 "bets": last_bets,
@@ -126,3 +126,14 @@ def betting(request):
         )
     messages.error(request, "Aucttion is closed!")
     return redirect("home")
+
+
+@login_required(login_url="login")
+def info_profile(request):
+    if request.user.is_superuser:
+        messages.error(
+            request, "super user can access to admin/ and new_auction page only"
+        )
+        return redirect("new_auction")
+    profile = User.objects.get(pk=request.user.pk)
+    return render(request, "auction/profile.html", {"profile": profile})
