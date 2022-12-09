@@ -11,3 +11,9 @@ class ItemForm(forms.ModelForm):
         widgets = {
             "close_date": DateTimeInput(attrs={"placeholder": "YYYY-MM-DD HH:MM"})
         }
+
+
+class AuctionBet(forms.ModelForm):
+    class Meta:
+        model = Auction
+        fields = ["open_price"]

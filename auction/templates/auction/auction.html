@@ -1,25 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
-   <div class="page-header" style="text-aligne:center">
+   <div class="page-header">
         <h1>OPEN AUCTIONS</h1>
     </div>
         <div class="container">
         <div class="row">
-                    {% for data in auction %}
+                    {% for item in auction %}
             <div class="col-sm-4">
                 <div class="card border-secondary" style="width: 25rem;">
                 <div class="card-header">
-                    Auction {{data.id}}
+                    Auction {{item.id}}
                 </div>
-                  <img src="{{ data.image.url}}"  class="card-img-top" width="250" height="180">
+                  <img src="{{ item.image.url }}"  class="card-img-top" width="250" height="180">
                   <div class="card-body">
-                    <h3 class="card-title" style="text-align:center"  >{{ data.object }}</h3>
-                    <p class="card-text">{{data.description}}<br> Price: ${{ data.open_price}}<br>
-                    End: {{data.close_date}}</p>
+                    <h3 class="card-title" style="text-align:center"  >{{ item.object }}</h3>
+                    <p class="card-text">{{item.description}}<br> Price: ${{ item.open_price}}<br>
+                    End: {{ item.close_date }}</p>
                       <form method="POST">
                     {% csrf_token %}
-                    <input type="number" name='auct_id' value={{data.id}}  readonly>
+                    <input type="number" name='auct_id' value={{item.id}}  readonly>
                     <button type="submit" class="btn btn-primary btn-sm">Go</button>
                     </form>
                   </div>

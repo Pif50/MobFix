@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import *
+from .models import Auction
 from .forms import *
 from .utils import *
 from django.contrib import messages
@@ -56,3 +56,73 @@ def auction(request):
         return redirect("betting")
     else:
         return render(request, "auction/auction.html", {"auction": auctions_open})
+
+
+@login_required(login_url="login")
+def betting(request):
+    if request.user.is_superuser:
+        messages.error(
+            request, "super user can access to admin/ and new_auction page only"
+        )
+        return redirect("new_auction")
+    id_ = request.session.get("selected_id")
+    auction = Auction.objects.filter(id=id_)
+    last_bets = last_bet(id_)
+    last_users = last_user(id_)
+    last_dates = last_date(id_)
+    check = check_data(
+        auction[0].close_date
+    )  # secondo check per la data di chiusura dell'asta
+    all_bets = len_bets(id_)
+    if check is True:
+        if request.method == "POST":
+            user = request.user
+            form = request.POST
+            prof_user = User.objects.get(pk=request.user.pk)
+            bet_price = form["bet"]
+            if all_bets < 1:  # se non ci sono ancora scommesse effettuate,
+                # l'importo dovra essere maggiore dell'open price scelto alla creazione dell'asta
+                if float(bet_price) >= auction[0].open_price:
+                    now = datetime.now()
+                    add_data_redis(
+                        auction[0].id,
+                        bet_price,
+                        datetime.strftime(now, "%m/%d/%Y, %H:%M:%S"),
+                        user,
+                    )
+                    prof_user.total_bet += 1
+                    prof_user.save()
+                    messages.success(request, "Confermed!")
+                    return redirect("betting")
+                else:
+                    messages.error(request, "Bet lower than open price")
+                    return redirect("betting")
+            else:
+                last_price = float(last_bets)
+                if float(bet_price) > last_price:
+                    now = datetime.now()
+                    add_data_redis(
+                        auction[0].id,
+                        bet_price,
+                        datetime.strftime(now, "%m/%d/%Y, %H:%M:%S"),
+                        user,
+                    )
+                    prof_user.total_bet += 1
+                    prof_user.save()
+                    messages.success(request, "Confermed!")
+                else:
+                    messages.error(request, "Import is lower than last bet")
+                return redirect("betting")
+        return render(
+            request,
+            "betting.html",
+            {
+                "auction": auction,
+                "bets": last_bets,
+                "users": last_users,
+                "date": last_dates,
+                "tot_bets": all_bets,
+            },
+        )
+    messages.error(request, "Aucttion is closed!")
+    return redirect("home")
