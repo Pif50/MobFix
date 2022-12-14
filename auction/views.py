@@ -136,5 +136,8 @@ def info_profile(request):
             request, "super user can access to admin/ and new_auction page only"
         )
         return redirect("new_auction")
-    profile = User.objects.get(pk=request.user.pk)
-    return render(request, "auction/profile.html", {"profile": profile})
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    if profile.wallet < 0:
+        messages.error(request, f"Attention! you must pay {profile.wallet}")
+    return render(request, "profile.html", {"profile": profile})
