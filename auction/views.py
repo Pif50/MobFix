@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Auction
 from users.models import Profile
+from django.contrib.auth.models import User
 from .forms import *
 from .utils import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 @login_required(login_url="login")
@@ -79,7 +81,7 @@ def betting(request):
         if request.method == "POST":
             user = request.user
             form = request.POST
-            prof_user = User.objects.get(pk=request.user.pk)
+            profile = Profile.objects.get(user=user)
             bet_price = form["bet"]
             if all_bets < 1:  # se non ci sono ancora scommesse effettuate,
                 # l'importo dovra essere maggiore dell'open price scelto alla creazione dell'asta
@@ -91,8 +93,8 @@ def betting(request):
                         datetime.strftime(now, "%m/%d/%Y, %H:%M:%S"),
                         user,
                     )
-                    prof_user.total_bet += 1
-                    prof_user.save()
+                    profile.total_bet += 1
+                    profile.save()
                     messages.success(request, "Confermed!")
                     return redirect("betting")
                 else:
@@ -108,8 +110,8 @@ def betting(request):
                         datetime.strftime(now, "%m/%d/%Y, %H:%M:%S"),
                         user,
                     )
-                    prof_user.total_bet += 1
-                    prof_user.save()
+                    profile.total_bet += 1
+                    profile.save()
                     messages.success(request, "Confermed!")
                 else:
                     messages.error(request, "Import is lower than last bet")
@@ -140,4 +142,4 @@ def info_profile(request):
     profile = Profile.objects.get(user=user)
     if profile.wallet < 0:
         messages.error(request, f"Attention! you must pay {profile.wallet}")
-    return render(request, "profile.html", {"profile": profile})
+    return render(request, "auction/profile.html", {"profile": profile})

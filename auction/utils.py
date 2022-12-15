@@ -6,6 +6,7 @@ from .models import *
 from django.contrib import messages
 import hashlib
 from django.contrib.auth.models import User
+from users.models import Profile
 
 client = redis.Redis(host="127.0.0.1", port="6379", decode_responses=True)
 
@@ -119,7 +120,7 @@ def check_winner(request, id_auction):
     auction.close_price = last_bet(id_auction)
     auction.winner = last_user(id_auction)
     auction.save()
-    prof_user = User.objects.get(username=auction.winner)
+    prof_user = Profile.objects.get(username=auction.winner)
     prof_user.wins += 1
     prof_user.wallet -= int(auction.close_price)
     tx = send_on_chain(auction)
@@ -135,8 +136,8 @@ def check_winner(request, id_auction):
 
 
 def check_profile(request):
-
-    prof_user = User.objects.get(pk=request.user.pk)
+    user = request.user
+    prof_user = Profile.objects.get(user=user)
     if prof_user is False:
         messages.error(request, f"Attention! please pay {prof_user.wallet} $")
         return True
