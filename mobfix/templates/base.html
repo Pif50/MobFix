@@ -56,7 +56,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             {% if request.user.is_superuser %}
-                <a class="navbar-brand" href="{% url 'new_item' %}" style="color: yellow">Create new collection</a>
+                <a class="navbar-brand" href="{% url 'new_item' %}" style="color: yellow">Create new item</a>
                 <a class="navbar-brand" href="{% url  'admin:index' %}" style="color: yellow">Admin pannel</a>
                 <a class="navbar-brand" href="{% url 'logout' %}" style="color: yellow">Logout</a>
             {% elif user.is_authenticated %}
