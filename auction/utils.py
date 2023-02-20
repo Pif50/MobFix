@@ -59,6 +59,7 @@ def send_on_chain(auct):
     auct.json_details_file = str(json_file)
     auct.tx = tx
     auct.save()
+    print(tx)
     return tx
 
 
@@ -132,6 +133,7 @@ def check_winner(request, id_auction):
         request,
         f"The winner is {auction.winner} with the last bet at $ {auction.close_price}",
     )
+    messages.info(request, f"The transaction is {tx}")
     return tx
 
 

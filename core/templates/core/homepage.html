@@ -2,6 +2,20 @@
 
 {% block content %}
 
-<h1>HomePage Ciaoooo</h1>
-
+<div class="row justify-content-center mt-4">
+    <h3 style="text-align:center">Hi and Welcome to Mobfix! <br> <br>
+        Mobfix is a auction site that will sell by an auction micromobility items for give that a second chanche! <br><br>
+        If you want help this philosophy of the second chance, yu can buy a item by the auction. 
+        <br><br>
+        The auction work by the blockchain, after judging the winner the details of auction will wrote on blockchain of ethereum!
+    </h3>
+    <h4 style="text-align:center" class="mt-4">
+        If you want to see what type of item we have on auction, please click on button below:
+        <a class="justify-content-center" href="{% url 'auction' %}">
+            <button  type="submit" class="btn btn-outline-danger btn-lg mt-4">Auction</button>
+        </a>
+    </h4>
+    
+    
+</div>
 {% endblock content %}
