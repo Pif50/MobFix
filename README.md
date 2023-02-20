@@ -7,6 +7,7 @@ Mobfix is a auction site that will sell by an auction micromobility items for gi
 - [Django](https://docs.djangoproject.com/en/4.1/)
 - [Html](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - [Bootstrap](https://getbootstrap.com/)
+- [Redis](https://redis.io)
 
 ## Technology installation and project setput:
 ### Creation of the Virtual Enviroment:
